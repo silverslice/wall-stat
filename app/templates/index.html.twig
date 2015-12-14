@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ name }}Stat</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="js/datepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="row">
+                <div class="col-md-7">
+                    <h1>Статистика <small>{{ name }}</small></h1>
+                </div>
+                <div class="col-md-5 text-right updated">
+                    Последнее обновление: <span class="label label-primary">{{ lastUpdate is empty ? "неизвестно" : lastUpdate|date('d.m.Y в H:i') }}</span>
+                </div>
+            </div>
+
+        </header>
+
+        <form class="form-horizontal col-sm-7">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Период</label>
+                <div class="col-sm-9">
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <div class="input-group date datepicker">
+                                <input type="text" class="form-control">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+                        </div>
+                        <label class="col-md-1 control-label text-center">—</label>
+                        <div class="col-md-4">
+                            <div class="input-group date datepicker">
+                                <input type="text" class="form-control">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Текст поста содержит:</label>
+                <div class="col-sm-9">
+                    <input type="query" class="form-control" value="#вот_так_диво">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-primary">Показать статистику</button>
+                </div>
+            </div>
+        </form>
+
+
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="js/datepicker/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker').datetimepicker({
+                format: 'DD.MM.YYYY',
+                locale: 'ru'
+            });
+        });
+    </script>
+</body>
+</html>

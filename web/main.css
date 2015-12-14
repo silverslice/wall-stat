@@ -1,0 +1,19 @@
+header {
+    margin-bottom: 50px;
+}
+
+.updated {
+    padding-top: 40px;
+}
+
+.loader {
+    background: url("/img/loader.gif") no-repeat;
+    height: 31px;
+    width: 31px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+h1 small {
+    font-size: 50%;
+}
