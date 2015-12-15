@@ -26,13 +26,7 @@ class WallParser
     {
         $params['v'] = $this->version;
 
-        $cacheFile = 'cache/' . $method . '?' . http_build_query($params);
-        if (file_exists($cacheFile)) {
-            $res = unserialize(file_get_contents($cacheFile));
-        } else {
-            $res = file_get_contents($this->apiUrl . $method . '?' . http_build_query($params));
-            file_put_contents($cacheFile, serialize($res));
-        }
+        $res = file_get_contents($this->apiUrl . $method . '?' . http_build_query($params));
 
         if ($res === false) {
             throw new \Exception('Unable to get data from vk.com');
