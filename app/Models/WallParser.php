@@ -18,21 +18,11 @@ class WallParser
     public function getPosts($params)
     {
         $params['count'] = isset($params['count']) ? $params['count'] : $this->defaultCount;
-        $params['offset'] = 0;
-        $totalCount = $this->defaultCount;
-        $fetchedCount = 0;
 
-        while ($fetchedCount < $totalCount) {
-            $res = $this->request('wall.get', $params);
-            $totalCount = $res['count'];
-            $fetchedCount += $params['count'];
-            $params['offset'] = $fetchedCount;
-
-            yield $res;
-        }
+        return new PostIterator($this, $params);
     }
 
-    protected function request($method, $params)
+    public function request($method, $params)
     {
         $params['v'] = $this->version;
 
