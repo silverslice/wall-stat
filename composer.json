@@ -3,7 +3,8 @@
     "silex/silex": "~1.3",
     "twig/twig": "^1.23",
     "silverslice/easydb" : "*",
-    "symfony/console": "^3.0"
+    "symfony/console": "^3.0",
+    "twig/extensions": "^1.3"
   },
 
   "autoload": {

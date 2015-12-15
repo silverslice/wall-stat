@@ -1,0 +1,14 @@
+{% for post in posts %}
+    <div class="post">
+        <div class="text-right link">
+            <a target="_blank" href="https://vk.com/wall-{{ attribute(app.config, 'group.id') }}_{{ post.id }}"><span class="glyphicon glyphicon-link"></span>ссылка на пост</a></div>
+        <div class="text">
+            {{ post.text | truncate(500, true) | nl2br }}
+        </div>
+        <div class="row footer">
+            <div class="col-md-6 date">{{ post.created_at|date('d.m.Y в H:i') }}</div>
+            <div class="col-md-6 text-right likes"><span class="glyphicon glyphicon-heart"></span> {{ post.likes_count }}</div>
+        </div>
+    </div>
+    <hr>
+{% endfor %}

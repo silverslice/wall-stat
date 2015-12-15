@@ -3,7 +3,8 @@ header {
 }
 
 .updated {
-    padding-top: 40px;
+    margin-top: 30px;
+    height: 32px;
 }
 
 .loader {
@@ -16,4 +17,37 @@ header {
 }
 h1 small {
     font-size: 50%;
+}
+
+.table-nofluid {
+    width: auto !important;
+}
+
+.results {
+    margin: 50px 0;
+}
+
+.post {
+    margin: 20px;
+}
+
+.post .date {
+    color: #999;
+}
+
+.post .likes {
+    color: #7295b2;
+}
+
+.post .link {
+    color: #7295b2;
+    font-size: 90%;
+}
+
+.post .link span {
+    margin-right: 5px;
+}
+
+.post .footer {
+    margin-top: 20px;
 }

@@ -14,6 +14,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
         'cache' => __DIR__ . '/cache/twig'
     ],
 ]);
+$app['twig']->addExtension(new Twig_Extensions_Extension_Text());
 
 $app['db'] = $app->share(function () {
     $dbOptions = include __DIR__ . '/app/config/db.php';

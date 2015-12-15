@@ -20,6 +20,40 @@ class WallStat
         return $this->db->getOne('SELECT updated_at FROM updates ORDER BY id DESC LIMIT 1');
     }
 
+    public function getStatistics($query = '', $startDate = 0, $endDate = 0)
+    {
+        $cond = $this->buildSearchCondition($query, $startDate, $endDate);
+
+        return $this->db->getAll('
+            SELECT profiles.id, profiles.first_name, profiles.last_name, sum(likes_count) as likes_count
+            FROM posts
+
+            LEFT JOIN profiles
+            ON profiles.id = posts.signer_id
+
+            WHERE 1
+            ?p
+
+            GROUP BY profiles.id, profiles.first_name, profiles.last_name
+            ORDER BY sum(likes_count) DESC
+        ', $cond);
+    }
+
+    public function getUserPosts($userId, $query = '', $startDate = 0, $endDate = 0)
+    {
+        $cond = $this->buildSearchCondition($query, $startDate, $endDate);
+
+        return $this->db->getAll('
+            SELECT *
+            FROM posts
+
+            WHERE posts.signer_id = ?
+            ?p
+
+            ORDER BY posts.created_at DESC
+        ', $userId, $cond);
+    }
+
     public function update()
     {
         $parser = new WallParser();
@@ -77,5 +111,32 @@ class WallStat
             $this->db->rollback();
             throw new \Exception('Unable to update statistics. Database error: ' . $e->getMessage());
         }
+    }
+
+    protected function buildSearchCondition($query = '', $startDate = 0, $endDate = 0)
+    {
+        if (!$endDate) {
+            $endDate = time();
+        }
+
+        if (!is_int($startDate)) {
+            $startDate = strtotime($startDate);
+        }
+        if (!is_int($endDate)) {
+            $endDate = strtotime($endDate);
+        }
+
+        $queryPart = '';
+        $periodPart = '';
+
+        if ($query) {
+            $queryPart = $this->db->prepare(" AND posts.text LIKE '%?e%'", $query);
+        }
+
+        if ($startDate || $endDate) {
+            $periodPart = $this->db->prepare(" AND posts.created_at >= ? AND posts.created_at <= ?", $startDate, $endDate);
+        }
+
+        return $periodPart . $queryPart;
     }
 }

@@ -19,30 +19,30 @@
                 <div class="col-md-7">
                     <h1>Статистика <small>{{ name }}</small></h1>
                 </div>
-                <div class="col-md-5 text-right updated">
+                <div class="col-md-5 updated text-right">
                     Последнее обновление: <span class="label label-primary">{{ lastUpdate is empty ? "неизвестно" : lastUpdate|date('d.m.Y в H:i') }}</span>
                 </div>
             </div>
 
         </header>
 
-        <form class="form-horizontal col-sm-7">
+        <form id="searchForm" class="form-horizontal col-sm-7">
             <div class="form-group">
                 <label class="col-sm-3 control-label">Период</label>
                 <div class="col-sm-9">
                     <div class="form-group row">
                         <div class="col-md-4">
                             <div class="input-group date datepicker">
-                                <input type="text" class="form-control">
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                                <input name="startDate" type="text" class="form-control">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
                         </div>
                         <label class="col-md-1 control-label text-center">—</label>
                         <div class="col-md-4">
                             <div class="input-group date datepicker">
-                                <input type="text" class="form-control">
+                                <input name="endDate" type="text" class="form-control">
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Текст поста содержит:</label>
                 <div class="col-sm-9">
-                    <input type="query" class="form-control" value="#вот_так_диво">
+                    <input name="query" type="text" class="form-control" value="{{ defaultQuery }}">
                 </div>
             </div>
 
@@ -65,8 +65,27 @@
             </div>
         </form>
 
+        <div class="clearfix"></div>
 
+        <section id="statResult" class="results col-md-8">
 
+        </section>
+
+    </div>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="detailModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="loader"></div>
+                    <div id="detailResults"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -78,6 +97,42 @@
             $('.datepicker').datetimepicker({
                 format: 'DD.MM.YYYY',
                 locale: 'ru'
+            });
+
+            $('#searchForm').submit(function () {
+                var btn = $(this).find('button[type=submit]');
+                btn.attr('disabled', 'disabled');
+                btn.after('<div class="loader"></div>');
+                $.get('/stat', $(this).serialize(), function (res) {
+                    btn.removeAttr('disabled');
+                    $('#searchForm .loader').remove();
+                    $('#statResult').html(res);
+                });
+
+                return false;
+            });
+
+            $('#detailModal').modal({
+                show: false
+            });
+
+            $('#statResult').on('click', '.detail', function () {
+                var tr = $(this).closest('tr');
+
+                var name = tr.find('.name').text();
+                $('#detailModalLabel').html(name);
+                $('#detailModal .loader').show();
+                $('#detailResults').html('');
+
+                $('#detailModal').modal('show');
+
+                var params = $('#searchForm').serialize() + '&userId=' + tr.data('id');
+                $.get('/detail', params, function (res) {
+                    $('#detailModal .loader').hide();
+                    $('#detailResults').html(res);
+                });
+
+                return false;
             });
         });
     </script>
