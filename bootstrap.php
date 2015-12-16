@@ -17,7 +17,13 @@ $app->register(new Silex\Provider\TwigServiceProvider(), [
 $app['twig']->addExtension(new Twig_Extensions_Extension_Text());
 
 $app['db'] = $app->share(function () {
-    $dbOptions = include __DIR__ . '/app/config/db.php';
+    $configFile = __DIR__ . '/app/config/db.php';
+    $configLocalFile = __DIR__ . '/app/config/db-local.php';
+    if (file_exists($configLocalFile)) {
+        $configFile = $configLocalFile;
+    }
+    $dbOptions = include $configFile;
+
     return new Silverslice\EasyDb\Database($dbOptions);
 });
 

@@ -11,8 +11,12 @@
         <tr data-id="{{ item.id }}">
             <td><a class="name" target="_blank" href="https://vk.com/id{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a></td>
             <td>{{ item.likes_count }}</td>
-            <td>{{ (item.likes_count / 10)|round(0, 'floor')  }}</td>
+            <td class="points">{{ (item.likes_count / 10)|round(0, 'floor')  }}</td>
             <td><a href="#" class="detail" title="Подробнее"><span class="glyphicon glyphicon-search"></span></a></td>
         </tr>
     {% endfor %}
 </table>
+
+{% if stat %}
+    <button id="copyBtn" class="btn btn-success">Скопировать результаты</button>
+{% endif %}

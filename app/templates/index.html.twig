@@ -88,6 +88,20 @@
         </div>
     </div>
 
+    <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="detailModalLabel">Скопировать результаты</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="js/moment-with-locales.min.js"></script>
@@ -116,6 +130,10 @@
                 show: false
             });
 
+            $('#copyModal').modal({
+                show: false
+            });
+
             $('#statResult').on('click', '.detail', function () {
                 var tr = $(this).closest('tr');
 
@@ -131,6 +149,24 @@
                     $('#detailModal .loader').hide();
                     $('#detailResults').html(res);
                 });
+
+                return false;
+            });
+
+            $('#statResult').on('click', '#copyBtn', function () {
+
+                var modal = $('#copyModal');
+                modal.modal('show');
+
+                var text = '';
+                $('#statResult tbody tr').each(function () {
+                    var id = $(this).data('id');
+                    var name = $(this).find('.name').text();
+                    var points = $(this).find('.points').text();
+                    text += '[id'+ id +'|'+ name +']' + ' — ' + points + '<br>';
+                });
+                modal.find('.modal-body').html(text);
+
 
                 return false;
             });
