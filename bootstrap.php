@@ -11,7 +11,8 @@ $app['config'] = include __DIR__ . '/app/config/main.php';
 $app->register(new Silex\Provider\TwigServiceProvider(), [
     'twig.path' => __DIR__ . '/app/templates',
     'twig.options' => [
-        'cache' => __DIR__ . '/cache/twig'
+        'cache' => __DIR__ . '/cache/twig',
+        'auto_reload' => true,
     ],
 ]);
 $app['twig']->addExtension(new Twig_Extensions_Extension_Text());
