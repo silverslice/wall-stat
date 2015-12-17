@@ -1,4 +1,14 @@
 {
+  "name": "silverslice/wall-stat",
+  "description": "Vkontakte posts statistics",
+  "keywords": ["vkontakte", "wall"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Igor Mikheev",
+      "email": "silver_slice@mail.ru"
+    }
+  ],
   "require": {
     "silex/silex": "~1.3",
     "twig/twig": "^1.23",
